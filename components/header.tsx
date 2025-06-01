@@ -71,11 +71,6 @@ export default function Header() {
             <Link href="/login" className="hover:text-red-500 hidden md:block">
               <User className="h-6 w-6" />
             </Link>
-            <Link href="/login" className="hidden md:block">
-              <Button variant="outline" size="sm" className="ml-2">
-                Login
-              </Button>
-            </Link>
 
             {/* Mobile Menu */}
             <Sheet>

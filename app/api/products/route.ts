@@ -1,11 +1,23 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { getAllProducts, getActiveProducts, createProduct, initializeDatabase } from "@/lib/db"
+import { getAllProducts, getActiveProducts, createProduct, initializeDatabase, testDatabaseConnection } from "@/lib/db"
 
 // Initialize the database with sample data if needed
-initializeDatabase().catch(console.error)
-
 export async function GET(request: NextRequest) {
   try {
+    // Test database connection first
+    const isConnected = await testDatabaseConnection()
+    if (!isConnected) {
+      return NextResponse.json(
+        { error: "Database connection failed. Please check your environment variables and database configuration." },
+        { status: 500 },
+      )
+    }
+
+    // Initialize database if needed
+    await initializeDatabase().catch((error) => {
+      console.error("Database initialization error:", error)
+    })
+
     // Check if we should only return active products
     const { searchParams } = new URL(request.url)
     const activeOnly = searchParams.get("activeOnly") === "true"
@@ -15,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ products }, { status: 200 })
   } catch (error) {
-    console.error("Error fetching products:", error)
+    console.error("Error in products API route:", error)
     return NextResponse.json(
       {
         error: "Failed to fetch products",

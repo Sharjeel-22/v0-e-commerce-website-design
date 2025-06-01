@@ -5,7 +5,19 @@ import type React from "react"
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, ShoppingBag, BarChart3, LogOut, Menu, X } from "lucide-react"
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  BarChart3,
+  LogOut,
+  Menu,
+  X,
+  Users,
+  ShoppingCart,
+  Package,
+  Settings,
+  FileText,
+} from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -36,7 +48,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navItems = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: ShoppingBag },
+    { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
+    { name: "Customers", href: "/admin/customers", icon: Users },
     { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+    { name: "Inventory", href: "/admin/inventory", icon: Package },
+    { name: "Reports", href: "/admin/reports", icon: FileText },
+    { name: "Settings", href: "/admin/settings", icon: Settings },
   ]
 
   return (

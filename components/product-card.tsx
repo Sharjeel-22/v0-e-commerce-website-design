@@ -8,8 +8,8 @@ import { Heart, ShoppingCart, Eye } from "lucide-react"
 interface ProductCardProps {
   image: string
   title: string
-  originalPrice: number
-  discountedPrice: number
+  originalPrice: number | string
+  discountedPrice: number | string
   discount: number
   rating: number
   reviews: number
@@ -32,6 +32,10 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+
+  // Ensure prices are numbers before using toFixed
+  const originalPriceNum = typeof originalPrice === "string" ? Number.parseFloat(originalPrice) : originalPrice
+  const discountedPriceNum = typeof discountedPrice === "string" ? Number.parseFloat(discountedPrice) : discountedPrice
 
   return (
     <Link href={`/product/${id}`} className="block">
@@ -98,8 +102,8 @@ export default function ProductCard({
         <div>
           <h3 className="font-medium mb-1">{title}</h3>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-red-500 font-medium">${discountedPrice.toFixed(2)}</span>
-            {discount > 0 && <span className="text-gray-500 line-through text-sm">${originalPrice.toFixed(2)}</span>}
+            <span className="text-red-500 font-medium">${discountedPriceNum.toFixed(2)}</span>
+            {discount > 0 && <span className="text-gray-500 line-through text-sm">${originalPriceNum.toFixed(2)}</span>}
           </div>
 
           {/* Rating */}
